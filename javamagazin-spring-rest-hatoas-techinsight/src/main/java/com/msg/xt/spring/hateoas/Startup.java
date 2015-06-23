@@ -5,14 +5,13 @@ package com.msg.xt.spring.hateoas;
 **  Copyright (c) 2013 msg systems ag (http://www.msg-systems.com/)
 **  All Rights Reserved.
 */
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.msg.xt.spring.hateoas.entity.Article;
 import com.msg.xt.spring.hateoas.entity.JavaMagazine;
-import com.msg.xt.spring.hateoas.repository.IJavaMagazineRepository;
+import com.msg.xt.spring.hateoas.repository.JavaMagazineRepository;
 
 /**
  * Startup Klasse
@@ -27,7 +26,7 @@ public class Startup {
 
 	@Autowired
 	public void setCustomerRepository(
-			IJavaMagazineRepository javaMagazineRepository) {
+			JavaMagazineRepository javaMagazineRepository) {
 
 		javaMagazineRepository.deleteAll();
 

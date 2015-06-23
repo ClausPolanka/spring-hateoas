@@ -1,5 +1,4 @@
 package com.msg.xt.spring.hateoas.entity;
-
 /*
 **  Spring Hateoas Samples 
 **  Design and Development by msg Applied Technology Research
@@ -13,9 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import org.springframework.hateoas.core.Relation;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * JavaMagazine Entity Class 
  * 
@@ -27,20 +23,16 @@ public class JavaMagazine extends AbstractEntity {
 
 	private String name;
 
+	public JavaMagazine() {
+	}
+
 	public JavaMagazine(String name) {
 		this.name=name;
 	}
 
-	public JavaMagazine() {
-		super();
-		
-	}
-
-	
 	@OneToMany(cascade=CascadeType.ALL)
-	private Set<Article> article = new HashSet<Article>();
+	private Set<Article> articles = new HashSet<Article>();
 
-	
 	public String getName() {
 		return name;
 	}
@@ -49,18 +41,15 @@ public class JavaMagazine extends AbstractEntity {
 		this.name = name;
 	}
 
-	public Set<Article> getArticle() {
-		return article;
+	public Set<Article> getArticles() {
+		return articles;
 	}
 
-	public void setArticle(Set<Article> article) {
-		this.article = article;
+	public void setArticles(Set<Article> articles) {
+		this.articles = articles;
 	}
 
 	public void add(Article newArticle) {
-		article.add(newArticle);
-		
+		articles.add(newArticle);
 	}
-	
-	
 }

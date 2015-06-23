@@ -14,8 +14,8 @@ import org.springframework.web.client.ResourceAccessException;
 
 import com.msg.xt.spring.hateoas.entity.Article;
 import com.msg.xt.spring.hateoas.entity.JavaMagazine;
-import com.msg.xt.spring.hateoas.repository.IArticleRepository;
-import com.msg.xt.spring.hateoas.repository.IJavaMagazineRepository;
+import com.msg.xt.spring.hateoas.repository.ArticleRepository;
+import com.msg.xt.spring.hateoas.repository.JavaMagazineRepository;
 import com.msg.xt.spring.hateoas.resource.ArticleResource;
 import com.msg.xt.spring.hateoas.resource.ArticleResourceAssembler;
 
@@ -24,13 +24,13 @@ import com.msg.xt.spring.hateoas.resource.ArticleResourceAssembler;
 public class ArticleResourceController {
 
 	@Autowired
-	private IArticleRepository articleRepository;
+	private ArticleRepository articleRepository;
 
 	@Autowired
 	private ArticleResourceAssembler articleResourceAssembler;
 
 	@Autowired
-	private IJavaMagazineRepository javaMagazineRepository;
+	private JavaMagazineRepository javaMagazineRepository;
 
 	@RequestMapping(value = "/version", method = RequestMethod.GET)
 	public String version() {
@@ -42,7 +42,7 @@ public class ArticleResourceController {
 		JavaMagazine javaMagazine = javaMagazineRepository.findOne(id);
 
 		List<ArticleResource> articleResources = articleResourceAssembler
-				.toResources(javaMagazine.getArticle());
+				.toResources(javaMagazine.getArticles());
 
 		return new ResponseEntity(articleResources,HttpStatus.OK);
 
@@ -52,7 +52,7 @@ public class ArticleResourceController {
 	public ResponseEntity<ArticleResource> articleByJavaMagazine(@PathVariable Long mid,
 			@PathVariable Long aid) {
 		JavaMagazine javaMagazine = javaMagazineRepository.findOne(mid);
-		Set<Article> articles = javaMagazine.getArticle();
+		Set<Article> articles = javaMagazine.getArticles();
 		for (Article article : articles) {
 			if (aid.equals(article.getId())) {
 				ArticleResource articleResources = articleResourceAssembler.toResource(article);

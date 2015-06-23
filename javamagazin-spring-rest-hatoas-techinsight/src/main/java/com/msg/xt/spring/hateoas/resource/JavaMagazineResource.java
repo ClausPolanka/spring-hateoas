@@ -9,7 +9,6 @@ package com.msg.xt.spring.hateoas.resource;
 import org.springframework.hateoas.Resource;
 
 import com.msg.xt.spring.hateoas.entity.JavaMagazine;
-
 /**
  * Java Magazine Resource 
  * 
@@ -24,8 +23,5 @@ public class JavaMagazineResource extends Resource<JavaMagazine> {
 	
 	public JavaMagazineResource(JavaMagazine javaMagazine) {
 		super(javaMagazine);
-		
 	}
-
-
 }

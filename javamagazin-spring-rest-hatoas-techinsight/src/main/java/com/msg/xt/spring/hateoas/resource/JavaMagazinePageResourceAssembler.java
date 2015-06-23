@@ -22,15 +22,14 @@ import com.msg.xt.spring.hateoas.entity.JavaMagazine;
 * @author Michael Schäfer, Peter Huber 
 * 
 * */
-
 @Component
 @Scope(WebApplicationContext.SCOPE_REQUEST)
-public class JavaMagazinePageResourceAssembler extends
-		PagedResourcesAssembler<JavaMagazine> {
+public class JavaMagazinePageResourceAssembler extends PagedResourcesAssembler<JavaMagazine> {
 
 	public JavaMagazinePageResourceAssembler() {
-		super(null, linkTo(JavaMagazineResourceController.class)
-				.toUriComponentsBuilder().build());
+		super(/** resolver */ null,
+              /** base URI */ linkTo(JavaMagazineResourceController.class)
+                  .toUriComponentsBuilder()
+                  .build());
 	}
-
 }
