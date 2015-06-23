@@ -1,0 +1,12 @@
+*.iml
+*.swp
+*.class
+.idea/
+target/
+data/
+/docs/george.html
+/docs/george.pdf
+/docs/george.pdfmarks
+/frontend.zip
+/importer.zip
+atlassian-ide-plugin.xml
