@@ -1,11 +1,11 @@
 package com.msg.xt.spring.hateoas.controller;
-
 /*
 **  Spring Hateoas Samples 
 **  Design and Development by msg Applied Technology Research
 **  Copyright (c) 2013 msg systems ag (http://www.msg-systems.com/)
 **  All Rights Reserved.
 */
+
 import java.util.List;
 import java.util.Set;
 
@@ -25,52 +25,43 @@ import com.msg.xt.spring.hateoas.repository.JavaMagazineRepository;
 import com.msg.xt.spring.hateoas.resource.ArticleResource;
 import com.msg.xt.spring.hateoas.resource.ArticleResourceAssembler;
 
+import static java.lang.String.format;
+
 /**
- * REST Interface für die Article Resource 
- * 
+ * REST Interface für die Article Resource
+ *
  * @author Michael Schäfer, Peter Huber
  */
-
-
-
 @RestController
 @RequestMapping("articles")
 public class ArticleResourceController {
 
-	@Autowired
-	private ArticleRepository articleRepository;
+    @Autowired
+    private ArticleResourceAssembler resourceAssembler;
 
-	@Autowired
-	private ArticleResourceAssembler articleResourceAssembler;
+    @Autowired
+    private JavaMagazineRepository jmRepo;
 
-	@Autowired
-	private JavaMagazineRepository javaMagazineRepository;
+    @RequestMapping(value = "/javamagazine/{id}/articles", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<ArticleResource>> articleByJavaMagazine(@PathVariable Long id) {
+        JavaMagazine jm = jmRepo.findOne(id);
+        List<ArticleResource> articleResources = resourceAssembler.toResources(jm.getArticles());
+        return new ResponseEntity(articleResources, HttpStatus.OK);
+    }
 
-	
-
-	@RequestMapping(value = "/javamagazine/{id}/articles", method = RequestMethod.GET)
-	public ResponseEntity<Iterable<ArticleResource>> articleByJavaMagazine(@PathVariable Long id) {
-		JavaMagazine javaMagazine = javaMagazineRepository.findOne(id);
-
-		List<ArticleResource> articleResources = articleResourceAssembler
-				.toResources(javaMagazine.getArticles());
-
-		return new ResponseEntity(articleResources,HttpStatus.OK);
-
-	}
-
-	@RequestMapping(value = "/javamagazine/{mid}/articles/{aid}", method = RequestMethod.GET)
-	public ResponseEntity<ArticleResource> articleByJavaMagazine(@PathVariable Long mid,
-			@PathVariable Long aid) {
-		JavaMagazine javaMagazine = javaMagazineRepository.findOne(mid);
-		Set<Article> articles = javaMagazine.getArticles();
-		for (Article article : articles) {
-			if (aid.equals(article.getId())) {
-				ArticleResource articleResources = articleResourceAssembler.toResource(article);
-				return new ResponseEntity(articleResources,HttpStatus.OK);
-			}
-		}
-		throw new ResourceAccessException(String.format(
-				"Article Not Found; mag=%d; article=%d", mid, aid));
-	}
+    @RequestMapping(value = "/javamagazine/{mid}/articles/{aid}", method = RequestMethod.GET)
+    public ResponseEntity<ArticleResource> articleByJavaMagazine(
+        @PathVariable Long mid,
+        @PathVariable Long aid)
+    {
+        JavaMagazine jm = jmRepo.findOne(mid);
+        Set<Article> articles = jm.getArticles();
+        for (Article article : articles) {
+            if (aid.equals(article.getId())) {
+                ArticleResource articleResources = resourceAssembler.toResource(article);
+                return new ResponseEntity(articleResources, HttpStatus.OK);
+            }
+        }
+        throw new ResourceAccessException(format("Article Not Found; mag=%d; article=%d", mid, aid));
+    }
 }
